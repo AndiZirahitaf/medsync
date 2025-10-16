@@ -1,0 +1,18 @@
+<?php 
+    session_start();
+    if(isset($_SESSION['unique_id'])){
+        include_once '../connection/koneksi.php';
+        $outgoing_id = $_SESSION['unique_id'];
+        $incoming_id = mysqli_real_escape_string($conn, $_POST['incoming_id']);
+        $message = mysqli_real_escape_string($conn, $_POST['message']);
+        $cons_code = mysqli_real_escape_string($conn, $_POST['cons_code']);
+        if(!empty($message)){
+            $sql = mysqli_query($conn, "INSERT INTO messages (incoming_msg_id, outgoing_msg_id, msg, cons_code)
+                                        VALUES ({$incoming_id}, {$outgoing_id}, '{$message}', '{$cons_code}')") or die();
+        }
+    }else{
+        header("location: ../login.php");
+    }
+
+    
+?>
